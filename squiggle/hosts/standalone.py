@@ -1,12 +1,11 @@
-import json
+import scribble
 import squiggle
-import MaxPlus
 
 
 # ------------------------------------------------------------------------------
-class MaxSquiggleDictionary(squiggle.SquiggleDictionary):
+class StandaloneSquiggleDictionary(squiggle.SquiggleDictionary):
 
-    Priority = 2
+    Priority = 1
 
     # --------------------------------------------------------------------------
     @classmethod
@@ -19,28 +18,15 @@ class MaxSquiggleDictionary(squiggle.SquiggleDictionary):
         Loads the data from the disk if it exists and updates this
         dictionary.
         """
-        root_node = MaxPlus.Core.GetRootNode()
-
-        try:
-            self.update(
-                json.load(
-                    root_node.GetAppData(abs(hash(self.identifier)))
-                )
-            )
-
-        except BaseException:
-            pass
+        data = scribble.get(self.identifier)
+        self.update(data)
 
     # --------------------------------------------------------------------------
     def save(self):
         """
         Saves the ScribbleDictionary data to a persistent state
         """
-        root_node = MaxPlus.Core.GetRootNode()
-
-        root_node.SetAppData(
-            abs(hash(self.identifier)),
-            json.dumps(
-                self,
-            )
-        )
+        data = scribble.get(self.identifier)
+        data.clear()
+        data.update(self)
+        data.save()

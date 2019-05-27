@@ -30,8 +30,8 @@ def get(identifier, *args, **kwargs):
             ],
         )
 
-    for plugin in _factory.plugins():
-        if plugin.viable():
+    for plugin in sorted(_factory.plugins(), key=lambda p: p.Priority, reverse=True):
+        if plugin.usable():
             return plugin(identifier, *args, **kwargs)
 
     raise Exception(
@@ -41,6 +41,8 @@ def get(identifier, *args, **kwargs):
 
 # ------------------------------------------------------------------------------
 class SquiggleDictionary(dict):
+
+    Priority = 1
 
     # --------------------------------------------------------------------------
     def __init__(self, identifier, *args, **kwargs):

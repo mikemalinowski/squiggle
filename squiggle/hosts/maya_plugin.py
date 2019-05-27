@@ -6,6 +6,8 @@ import maya.cmds as mc
 # ------------------------------------------------------------------------------
 class MayaSquiggleDictionary(squiggle.SquiggleDictionary):
 
+    Priority = 2
+
     # --------------------------------------------------------------------------
     @classmethod
     def usable(cls):
@@ -29,11 +31,7 @@ class MayaSquiggleDictionary(squiggle.SquiggleDictionary):
         Saves the ScribbleDictionary data to a persistent state
         """
         try:
-            data = json.dumps(
-                self,
-                indent=4,
-                sort_keys=True,
-            )
+            data = json.dumps(self)
 
         except BaseException:
             raise Exception(
