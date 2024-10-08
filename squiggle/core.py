@@ -1,5 +1,5 @@
 import os
-import factories
+from .vendor import factories
 
 _factory = None
 
@@ -28,6 +28,7 @@ def get(identifier, *args, **kwargs):
                     'hosts',
                 ),
             ],
+            log_errors=False,
         )
 
     for plugin in sorted(_factory.plugins(), key=lambda p: p.Priority, reverse=True):
